@@ -176,7 +176,7 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
                     e => graphViewClickHandler(e, edgeDataSet, stixIdToObject)
                 );
             }
-
+            
             populateLegend(...view.legendData);
         }
         catch (err)
@@ -293,6 +293,8 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
 
         for (let [stixType, iconURL] of iconURLMap)
         {
+            let summaryLegend = document.createElement("summary");
+
             let img = document.createElement('img');
 
             img.onerror = function() {
@@ -313,9 +315,13 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
 
             td = tr.insertCell();
             ++colIdx;
-
-            td.append(img);
-            td.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
+            
+            summaryLegend.append(img);
+            summaryLegend.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
+            td.summaryLegend(summaryLegend);
+            // td.append(summaryLegend);
+            // td.append(img);
+            // td.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
         }
     }
 
