@@ -293,8 +293,6 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
 
         for (let [stixType, iconURL] of iconURLMap)
         {
-            let summaryLegend = document.createElement("summary");
-
             let img = document.createElement('img');
 
             img.onerror = function() {
@@ -316,12 +314,16 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
             td = tr.insertCell();
             ++colIdx;
             
-            summaryLegend.append(img);
-            summaryLegend.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
-            td.summaryLegend(summaryLegend);
-            // td.append(summaryLegend);
-            // td.append(img);
-            // td.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
+            td.append(img);
+            td.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
+
+            let nodesName = view.nodesWithType(stixType);
+            for (let node of nodesName) //node 각각은 string
+            {
+                const summaryLegend = document.createElement("summary");
+                summaryLegend.textContent = node;
+                td.appendChild(summaryLegend);
+            }
         }
     }
 
