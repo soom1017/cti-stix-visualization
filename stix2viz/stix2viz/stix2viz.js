@@ -1431,11 +1431,10 @@ class GraphView extends STIXContentView
 
     nodesWithType(stixType)
     {
-        let nodesName = this.nodeDataSet.get({
-            filter: item => item.group === stixType,
-            fields: ["label"]
+        let nodes = this.nodeDataSet.get({
+            filter: item => item.group === stixType
         });
-        return nodesName;
+        return nodes;
     }
 }
 

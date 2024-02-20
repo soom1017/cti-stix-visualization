@@ -314,16 +314,23 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
             td = tr.insertCell();
             ++colIdx;
             
-            td.append(img);
-            td.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
+            let detailsNode = document.createElement("details");
+            let summary = document.createElement("summary");
+            summary.textContent = stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase();
 
-            let nodesName = view.nodesWithType(stixType);
-            for (let node of nodesName) //node 각각은 string
+            detailsNode.append(summary);
+            td.append(img);
+            td.append(detailsNode);
+
+            let nodes = view.nodesWithType(stixType);
+            let nodesWrapper = document.createElement("ul")
+            for (let node of nodes)
             {
-                const summaryLegend = document.createElement("summary");
-                summaryLegend.textContent = node;
-                td.appendChild(summaryLegend);
+                let li = document.createElement("li");
+                li.textContent = node.label;
+                nodesWrapper.append(li);
             }
+            detailsNode.append(nodesWrapper);
         }
     }
 
