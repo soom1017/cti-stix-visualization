@@ -252,25 +252,36 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
         if (!view)
             return;
 
-        let td;
+        let td, toggeldStixObject, toggledStixType;
         let clickedTagName = event.target.tagName.toLowerCase();
 
-        if (clickedTagName === "td")
-            // ... if the legend item text was clicked
-            td = event.target;
-        else if (clickedTagName === "img")
-            // ... if the legend item icon was clicked
-            td = event.target.parentElement;
+        if (clickedTagName === "li")
+        {
+            // ... if the stix item text was clicked
+            toggeldStixObject = event.target.textContent;
+            view.toggleStixName(toggeldStixObject);
+            event.target.classList.toggle("typeHidden");
+        }
         else
-            return;
+        {
+            if (clickedTagName === "td")
+                // ... if the legend item text was clicked
+                td = event.target;
+            else if (clickedTagName === "img")
+                // ... if the legend item icon was clicked
+                td = event.target.parentElement;
+            else
+                return;
 
-        // The STIX type the user clicked on
-        let toggledStixType = td.textContent.trim().toLowerCase();
-
-        view.toggleStixType(toggledStixType);
-
-        // style change to remind users what they've hidden.
-        td.classList.toggle("typeHidden");
+            // The STIX type the user clicked on
+            toggledStixType = td.querySelector("details").querySelector("summary").textContent;
+            toggledStixType = toggledStixType.trim().toLowerCase();
+            
+            view.toggleStixType(toggledStixType);
+            
+            // style change to remind users what they've hidden.
+            td.classList.toggle("typeHidden");
+        }
     }
 
     /* ******************************************************
