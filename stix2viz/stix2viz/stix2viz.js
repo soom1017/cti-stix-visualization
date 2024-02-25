@@ -1062,7 +1062,8 @@ class GraphView extends STIXContentView {
             if (selected) {
               values.shadow = true;
               values.shadowX = values.shadowY = 8;
-              values.borderWidth = 4;
+              values.borderWidth = 5; // origin 4
+              values.size = (50 / 3) * 2; // origin : 25
             }
           },
         },
