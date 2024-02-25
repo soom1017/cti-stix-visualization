@@ -24412,7 +24412,6 @@
             return;
           } // At this point, an image is present, i.e. this.imageObj is valid.
 
-          console.log("CircularImage");
           if (this.needsRefresh(selected, hover)) {
             this._resizeImage();
           }

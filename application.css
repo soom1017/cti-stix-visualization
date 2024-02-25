@@ -1,25 +1,55 @@
+@font-face {
+  font-family: "notion-mono-regular";
+  src: url("./fonts/Static/iAWriterMonoS-Regular.ttf") format("ttf");
+  /* Add more src lines for other font formats if necessary */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "notion-mono-bold";
+  src: url("./fonts/Static/iAWriterMonoS-Bold.ttf") format("ttf");
+  /* Add more src lines for other font formats if necessary */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "notion-mono-ital";
+  src: url("./fonts/Static/iAWriterMonoS-Italic.ttf") format("ttf");
+  /* Add more src lines for other font formats if necessary */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "notion-mono-boldital";
+  src: url("./fonts/Static/iAWriterMonoS-BoldItalic.ttf") format("ttf");
+  /* Add more src lines for other font formats if necessary */
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
-  font-family: "Helvetica", sans-serif;
+  /* font-family: "Helvetica", sans-serif; */
+  font-family: "notion-mono-regular", sans-serif;
 }
 
-#top-header-bar
-{
-    background-color: #fafafa;
-    margin-bottom: 10px;
-    padding: 20px;
+#top-header-bar {
+  background-color: #fafafa;
+  margin-bottom: 10px;
+  padding: 20px;
 }
 
-#top-header-bar h1
-{
+#top-header-bar h1 {
   font-size: 36px;
   font-weight: normal;
   display: inline;
 }
 
-#top-header-bar a
-{
-    float: right;
+#top-header-bar a {
+  float: right;
 }
 
 #canvas {
@@ -67,66 +97,66 @@ body {
 }
 
 #legend-content {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 #legend-content img {
-    vertical-align: middle;
-    margin-right: 0.5em;
+  vertical-align: middle;
+  margin-right: 0.5em;
 }
 
 #legend-content td {
-    width: 50%;
+  width: 50%;
 }
 
 #legend-content .typeHidden {
-    font-style: italic;
-    color: gray;
+  font-style: italic;
+  color: gray;
 }
 
 .selected-object-object-content {
-    margin-left: 2em;  /* affects indentation of object properties */
+  margin-left: 2em; /* affects indentation of object properties */
 }
 
 .selected-object-prop-name {
-    color: purple;
-    margin-right: 0.5em;  /* space out prop name from its value. */
+  color: purple;
+  margin-right: 0.5em; /* space out prop name from its value. */
 }
 
 .selected-object-list {
-    padding-left: 2em; /* affects indentation of list items */
-    margin: 0; /* snug lists up with what's above/below them */
-    list-style: none;  /* drop the list item numbering */
+  padding-left: 2em; /* affects indentation of list items */
+  margin: 0; /* snug lists up with what's above/below them */
+  list-style: none; /* drop the list item numbering */
 }
 
 .selected-object-text-value {
-    color: darkblue;
+  color: darkblue;
 }
 
 .selected-object-text-value-ref {
-    color: lightblue;
-    text-decoration: underline;
-    cursor: pointer;
+  color: lightblue;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* If a reference is to an object which is not in the graph */
 .selected-object-text-value-ref-dangling {
-    color: red;
-    text-decoration: underline;
-    cursor: not-allowed;
+  color: red;
+  text-decoration: underline;
+  cursor: not-allowed;
 }
 
 .selected-object-nontext-value {
-    color: orange;
+  color: orange;
 }
 
 .list-view-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .list-view-selected {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
 #paste-area-stix-json {
