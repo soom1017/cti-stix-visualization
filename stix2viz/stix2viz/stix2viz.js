@@ -1467,7 +1467,7 @@ class GraphView extends STIXContentView
                 );
                 
                 if (!otherEndNode.hidden
-                    || otherEndNode.createdDate >= startDate.toISOString() && otherEndNode.createDate <= endDate.toISOString())
+                    || otherEndNode.createdDate >= startDate.toISOString() && otherEndNode.createdDate <= endDate.toISOString())
                 {
                     toggledEdges.push({
                         id: edge.id, hidden: false, physics: true
@@ -1513,6 +1513,30 @@ class GraphView extends STIXContentView
 
         this.nodeDataSet.updateOnly(hiddenNodes);
         this.edgeDataSet.updateOnly(hiddenEdges);
+    }
+
+    checkNodes(){
+        let nodes = this.nodeDataSet.get()
+
+        let message = "";
+
+        for (let node of nodes){
+            let add = node.id + " " + node.createdDate + " " + node.hidden + "\n";
+            message += add;
+        }
+        alert(message);
+    }
+
+    checkEdges(){
+        let edges = this.edgeDataSet.get();
+
+        let message = "";
+
+        for (let edge of edges){
+            let add = edge.to + " -> " + edge.from + " " + edge.hidden + "\n";
+            message += add;
+        }
+        alert(message);
     }
     
     /**
