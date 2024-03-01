@@ -261,9 +261,27 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
             toggeldStixObject = event.target.textContent;
             view.toggleStixName(toggeldStixObject);
             event.target.classList.toggle("typeHidden");
+
+            if (event.target.classList.value === "" && event.target.parentElement.parentElement.querySelector("summary").classList.value === "typeHidden")
+                event.target.parentElement.parentElement.querySelector("summary").classList.toggle("typeHidden")
+            else if (event.target.classList.value === "typeHidden")
+            {
+                let li = event.target.parentElement.querySelectorAll("li")
+                
+                let hiding = true
+                for (let i of li)
+                    if (i.classList.value === "") 
+                        hiding = false
+
+                if(hiding) 
+                    event.target.parentElement.parentElement.querySelector("summary").classList.toggle("typeHidden")
+
+            }
         }
         else
         {
+            let summary;
+
             if (clickedTagName === "td")
                 // ... if the legend item text was clicked
                 td = event.target;
@@ -274,13 +292,21 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
                 return;
 
             // The STIX type the user clicked on
-            toggledStixType = td.querySelector("details").querySelector("summary").textContent;
+            summary = td.querySelector("details").querySelector("summary")
+            toggledStixType = summary.textContent;
             toggledStixType = toggledStixType.trim().toLowerCase();
             
             view.toggleStixType(toggledStixType);
             
             // style change to remind users what they've hidden.
-            td.classList.toggle("typeHidden");
+             
+            summary.classList.toggle("typeHidden");
+            let li = td.querySelector("details").querySelectorAll("ul li");
+            
+            li.forEach(function(item) {
+                if (item.classList.value != summary.classList.value)
+                    item.classList.toggle("typeHidden")
+            });
         }
     }
 

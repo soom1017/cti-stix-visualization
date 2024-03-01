@@ -1332,10 +1332,24 @@ class GraphView extends STIXContentView
 
         this.enablePhysics();
 
-        // Whether we are hiding or showing nodes of the selected type.
-        // If first node is currently hidden, we must be showing, and vice
-        // versa.
-        let hiding = !nodes[0].hidden;
+        // Check all the nodes.
+        // If any of them is not hidden -> hiding = true
+        // else hiding = false;
+        let hiding = false;
+        for(let node of nodes)
+        {
+            if(!node.hidden)
+            {
+                hiding = true;
+                break;
+            }
+        }
+        if(hiding)
+        {
+            nodes = nodes.filter(function(item) {
+                return !item.hidden;
+            })
+        }
 
         let toggledNodes = [];
         let toggledEdges = [];
