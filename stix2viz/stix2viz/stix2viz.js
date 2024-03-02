@@ -1048,6 +1048,9 @@ class GraphView extends STIXContentView {
 
     let graphOpts = {
       groups: groups,
+      interaction: {
+        hover:true
+      },
       nodes: {
         color: {
           border: "black",

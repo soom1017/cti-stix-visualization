@@ -24064,6 +24064,13 @@
             this.height = height * scale;
             this.radius = 0.5 * this.width * scale;
           }
+          // else if (this.hover == true) {
+          //   console.log("Image hovered")
+            
+          //   this.width = width;
+          //   this.height = height;
+          //   this.radius = 0.5 * this.width;
+          // }
           else {
             this.width = width;
             this.height = height;
@@ -24255,6 +24262,13 @@
               this.height = diameter * scale;
               this.radius = this.width / 2 * scale;              
             }
+            // else if (hover == true) {
+            //   console.log("Circle hovered")
+              
+            //   this.width = width;
+            //   this.height = height;
+            //   this.radius = 0.5 * this.width;
+            // }
             else {
               this.width = diameter;
               this.height = diameter;
@@ -40969,6 +40983,8 @@
             }
           } // adding hover highlights
 
+          // console.log("this.options.hover = ", this.options.hover);
+
           if (this.options.hover === true) {
             this.selectionHandler.hoverObject(event, pointer);
           }
@@ -42507,6 +42523,8 @@
 
           var hoverChanged = false;
 
+          // console.log("emitHoverEvent");
+
           if (object.hover === false) {
             object.hover = true;
 
@@ -42535,6 +42553,7 @@
       {
         key: "hoverObject",
         value: function hoverObject(event, pointer) {
+          // console.log("hoverObject start");
           var object = this.getNodeAt(pointer);
 
           if (object === undefined) {
@@ -42597,14 +42616,14 @@
               hoveredNodesCount === 0;
 
             if (hoverChanged || newOnlyHoveredEdge || newOnlyHoveredNode) {
-              hoverChanged = this.emitHoverEvent(event, pointer, object);
+              hoverChanged = this.emitHoverEvent(event, pointer, object); // edge or not connected node hovering
             }
 
             if (
               object instanceof Node &&
               this.options.hoverConnectedEdges === true
             ) {
-              this._hoverConnectedEdges(object);
+              this._hoverConnectedEdges(object); // connected node hovering
             }
           }
 
