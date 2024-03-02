@@ -1,6 +1,35 @@
+@font-face {
+  font-family: "notion-mono-regular";
+  src: url("./fonts/CookieRunFont_TTF/CookieRun Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "notion-mono-bold";
+  src: url("./fonts/Static/iAWriterMonoS-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "notion-mono-ital";
+  src: url("./fonts/Static/iAWriterMonoS-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "notion-mono-boldital";
+  src: url("./fonts/Static/iAWriterMonoS-BoldItalic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
-  font-family: "Helvetica", sans-serif;
+  /* font-family: "Helvetica", sans-serif; */
+  font-family: "notion-mono-regular", sans-serif;
 }
 
 #top-header-bar

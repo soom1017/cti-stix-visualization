@@ -1208,13 +1208,26 @@ class GraphView extends STIXContentView
 
         let graphOpts = {
             groups: groups,
+            interaction: {
+                hover:true
+              },
             nodes: {
                 color: {
                     border: "black"
                 },
                 font: {
-                    size: 20
-                },
+                    size: 20,
+                    face: "notion-mono-regular",
+                    bold: {
+                      face: "notion-mono-bold",
+                    },
+                    ital: {
+                      face: "notion-mono-ital",
+                    },
+                    boldital: {
+                      face: "notion-mono-boldital",
+                    },
+                  },
                 borderWidth: 2,
                 chosen: {
                     // Enable a drop shadow when a node is selected
@@ -1223,7 +1236,9 @@ class GraphView extends STIXContentView
                         {
                             values.shadow = true;
                             values.shadowX = values.shadowY = 8;
-                            values.borderWidth = 4;
+                            // values.borderWidth = 4;
+                            values.borderWidth = 5;
+                            values.size = (50 / 3) * 2; // origin : 25
                         }
                     }
                 }
@@ -1233,7 +1248,17 @@ class GraphView extends STIXContentView
                 width: 3,
                 color: "gray",
                 font: {
-                    size: 20
+                    size: 20,
+                    face: "notion-mono-regular",
+                    bold: {
+                      face: "notion-mono-bold",
+                    },
+                    ital: {
+                      face: "notion-mono-ital",
+                    },
+                    boldital: {
+                      face: "notion-mono-boldital",
+                    },
                 }
             },
             physics: {

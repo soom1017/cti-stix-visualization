@@ -21715,9 +21715,18 @@
 	        height = this.imageObj.height + imgPadding.top + imgPadding.bottom;
 	      }
 
-	      this.width = width;
-	      this.height = height;
-	      this.radius = 0.5 * this.width;
+          if (this.selected == true) {
+            var scale = 4 / 3;
+            
+            this.width = width * scale;
+            this.height = height * scale;
+            this.radius = 0.5 * this.width * scale;
+          }
+          else {
+            this.width = width;
+            this.height = height;
+            this.radius = 0.5 * this.width;
+          }
 	    }
 	    /**
 	     *
@@ -21853,9 +21862,18 @@
 	        var diameter = Math.max(dimensions.width + this.margin.right + this.margin.left, dimensions.height + this.margin.top + this.margin.bottom);
 	        this.options.size = diameter / 2; // NOTE: this size field only set here, not in Ellipse, Database, Box
 
-	        this.width = diameter;
-	        this.height = diameter;
-	        this.radius = this.width / 2;
+            if (this.selected == true) {
+				var scale = 4 / 3;
+  
+				this.width = diameter * scale;
+				this.height = diameter * scale;
+				this.radius = this.width / 2 * scale;              
+			  }
+			  else {
+				this.width = diameter;
+				this.height = diameter;
+				this.radius = this.width / 2; 
+			  }
 	      }
 	    }
 	    /**
