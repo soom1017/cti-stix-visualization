@@ -1337,10 +1337,24 @@ class GraphView extends STIXContentView
 
         this.enablePhysics();
 
-        // Whether we are hiding or showing nodes of the selected type.
-        // If first node is currently hidden, we must be showing, and vice
-        // versa.
-        let hiding = !nodes[0].hidden;
+        // Check all the nodes.
+        // If any of them is not hidden -> hiding = true
+        // else hiding = false;
+        let hiding = false;
+        for(let node of nodes)
+        {
+            if(!node.hidden)
+            {
+                hiding = true;
+                break;
+            }
+        }
+        if(hiding)
+        {
+            nodes = nodes.filter(function(item) {
+                return !item.hidden;
+            })
+        }
 
         let toggledNodes = [];
         let toggledEdges = [];
@@ -1429,7 +1443,6 @@ class GraphView extends STIXContentView
         this.enablePhysics();
 
         let hiding = false;
-
         let toggledNodes = [];
         let toggledEdges = [];
 
@@ -1514,7 +1527,90 @@ class GraphView extends STIXContentView
         this.nodeDataSet.updateOnly(hiddenNodes);
         this.edgeDataSet.updateOnly(hiddenEdges);
     }
+
+
+    toggleStixName(stixName)
+    {
+        let node = this.nodeDataSet.get({
+            filter: item => item.label === stixName,
+            fields: ["id", "hidden"]
+        });
+
+        if (node.length === 0)
+            return;
+        node = node[0];
+        this.enablePhysics();
+
+        // Whether we are hiding or showing nodes of the selected type.
+        // If first node is currently hidden, we must be showing, and vice
+        // versa.
+        let hiding = !node.hidden;
+
+        let toggledNodes = [];
+        let toggledEdges = [];
+
+        // An edge could connect two nodes of the same type.  Ensure we don't
+        // toggle an edge more than once!
+        let toggledEdgeIds = new Set();
+
+        // Toggling the node is simple
+        toggledNodes.push({
+            id: node.id, hidden: hiding, physics: !hiding
+        });
+
+        // Toggling the edges is more complex...
+        let edgesForNode = this.edgeDataSet.get({
+            // find (a) edges connecting to 'node'; (b) edges with the
+            // right visibility; (c) edges we have not already seen.
+            filter: item => (item.from === node.id || item.to === node.id)
+                && !item.hidden === hiding && !toggledEdgeIds.has(item.id),
+            fields: ["id", "from", "to"]
+        });
+
+        if (hiding)
+        {
+            // simple case: unconditionally hide everything
+            for (let edge of edgesForNode)
+            {
+                toggledEdges.push({
+                    id: edge.id, hidden: true, physics: false
+                });
+                toggledEdgeIds.add(edge.id);
+            }
+        }
+        else
+        {
+            // showing is a more complex case: gotta check the other ends
+            // of the edges.  Only show if the other end is also visible
+            // or of the selected type (meaning it will become visible).
+            for (let edge of edgesForNode)
+            {
+                let otherEndId;
+                if (edge.from === node.id)
+                    otherEndId = edge.to;
+                else
+                    otherEndId = edge.from;
+
+                let otherEndNode = this.nodeDataSet.get(
+                    otherEndId,
+                    {fields: ["group", "hidden"]}
+                );
+
+                if (!otherEndNode.hidden)
+                {
+                    toggledEdges.push({
+                        id: edge.id, hidden: false, physics: true
+                    });
+                    toggledEdgeIds.add(edge.id);
+                }
+            }
+        }
+
+        this.nodeDataSet.updateOnly(toggledNodes);
+        this.edgeDataSet.updateOnly(toggledEdges);
+    }
     
+
     /**
      * Set the graph selection to the node corresponding to the given STIX ID.
      */
@@ -1543,6 +1639,7 @@ class GraphView extends STIXContentView
         this.#network.setOptions( { physics: false } );
     }
 
+
     isHidden(searchInput)
     {
         let nodes = this.nodeDataSet.get({
@@ -1550,6 +1647,14 @@ class GraphView extends STIXContentView
             fields: ["label", "hidden"]
         });
         return nodes[0].hidden;
+    }
+
+    nodesWithType(stixType)
+    {
+        let nodes = this.nodeDataSet.get({
+            filter: item => item.group === stixType
+        });
+        return nodes;
     }
 }
 

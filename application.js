@@ -352,25 +352,62 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
         if (!view)
             return;
 
-        let td;
+        let td, toggeldStixObject, toggledStixType;
         let clickedTagName = event.target.tagName.toLowerCase();
 
-        if (clickedTagName === "td")
-            // ... if the legend item text was clicked
-            td = event.target;
-        else if (clickedTagName === "img")
-            // ... if the legend item icon was clicked
-            td = event.target.parentElement;
+        if (clickedTagName === "li")
+        {
+            // ... if the stix item text was clicked
+            toggeldStixObject = event.target.textContent;
+            view.toggleStixName(toggeldStixObject);
+            event.target.classList.toggle("typeHidden");
+
+            if (event.target.classList.value === "" && event.target.parentElement.parentElement.querySelector("summary").classList.value === "typeHidden")
+                event.target.parentElement.parentElement.querySelector("summary").classList.toggle("typeHidden")
+            else if (event.target.classList.value === "typeHidden")
+            {
+                let li = event.target.parentElement.querySelectorAll("li")
+                
+                let hiding = true
+                for (let i of li)
+                    if (i.classList.value === "") 
+                        hiding = false
+
+                if(hiding) 
+                    event.target.parentElement.parentElement.querySelector("summary").classList.toggle("typeHidden")
+
+            }
+        }
         else
-            return;
+        {
+            let summary;
 
-        // The STIX type the user clicked on
-        let toggledStixType = td.textContent.trim().toLowerCase();
+            if (clickedTagName === "td")
+                // ... if the legend item text was clicked
+                td = event.target;
+            else if (clickedTagName === "img")
+                // ... if the legend item icon was clicked
+                td = event.target.parentElement;
+            else
+                return;
 
-        view.toggleStixType(toggledStixType);
-
-        // style change to remind users what they've hidden.
-        td.classList.toggle("typeHidden");
+            // The STIX type the user clicked on
+            summary = td.querySelector("details").querySelector("summary")
+            toggledStixType = summary.textContent;
+            toggledStixType = toggledStixType.trim().toLowerCase();
+            
+            view.toggleStixType(toggledStixType);
+            
+            // style change to remind users what they've hidden.
+             
+            summary.classList.toggle("typeHidden");
+            let li = td.querySelector("details").querySelectorAll("ul li");
+            
+            li.forEach(function(item) {
+                if (item.classList.value != summary.classList.value)
+                    item.classList.toggle("typeHidden")
+            });
+        }
     }
 
     /* ******************************************************
@@ -413,9 +450,24 @@ require(["domReady!", "stix2viz/stix2viz/stix2viz"], function (document, stix2vi
 
             td = tr.insertCell();
             ++colIdx;
+            
+            let detailsNode = document.createElement("details");
+            let summary = document.createElement("summary");
+            summary.textContent = stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase();
 
+            detailsNode.append(summary);
             td.append(img);
-            td.append(stixType.charAt(0).toUpperCase() + stixType.substr(1).toLowerCase());
+            td.append(detailsNode);
+
+            let nodes = view.nodesWithType(stixType);
+            let nodesWrapper = document.createElement("ul")
+            for (let node of nodes)
+            {
+                let li = document.createElement("li");
+                li.textContent = node.label;
+                nodesWrapper.append(li);
+            }
+            detailsNode.append(nodesWrapper);
         }
     }
 
